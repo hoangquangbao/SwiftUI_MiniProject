@@ -13,7 +13,7 @@ struct SkeletonView<S: Shape>: View {
     
     @State var isAnimating: Bool = false
     
-    init(shape: S, color: Color = .gray.opacity(0.3)) {
+    init(_ shape: S, _ color: Color = .gray.opacity(0.3)) {
         self.shape = shape
         self.color = color
     }
@@ -71,6 +71,15 @@ struct SkeletonView<S: Shape>: View {
 }
 
 #Preview {
-    SkeletonView(shape: .rect)
+    @Previewable
+    @State var isTapped = false
+    
+    SkeletonView(.rect)
         .frame(width: 100, height: 100)
+        .onTapGesture {
+            withAnimation(.smooth) {
+                isTapped.toggle()
+            }
+        }
+        .padding(.bottom, isTapped ? 10 : 0)
 }
